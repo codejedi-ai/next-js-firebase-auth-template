@@ -1,10 +1,12 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
+import { AuthProvider } from "@/components/firebase-auth-provider" // Import AuthProvider
 
 export const metadata: Metadata = {
-  title: "Galatea AI - Where AI Becomes Your Perfect Companion",
-  description: "Galatea AI brings your ideal companion to life, just like the mythical sculpture that became real.",
+  title: "Next.js Firebase Auth Demo",
+  description: "Demonstrating authentication with Firebase.",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -14,7 +16,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-gray-900">
+        <AuthProvider>
+          {" "}
+          {/* Wrap children with AuthProvider */}
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   )
 }
