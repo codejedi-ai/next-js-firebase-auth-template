@@ -1,36 +1,37 @@
-"use client"
+"use client";
 
-import { useAuth } from "@/components/firebase-auth-provider"
-import { SignOutButton } from "@/components/auth-components"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import { User, Mail, Calendar, Shield } from "lucide-react"
+import { useAuth } from "@/components/auth-provider";
+import { SignOutButton } from "@/components/auth-buttons";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Calendar, Mail, Shield, User } from "lucide-react";
 
 export default function DashboardPage() {
-  const { user, loading } = useAuth()
-  const router = useRouter()
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   // Redirect to sign-in if user is not authenticated
   useEffect(() => {
     if (!user && !loading) {
-      router.push("/")
+      router.push("/");
     }
-  }, [user, loading, router])
+  }, [user, loading, router]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-t-transparent border-teal-400 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-t-transparent border-teal-400 rounded-full animate-spin mx-auto mb-4">
+          </div>
           <p className="text-white text-lg">Loading dashboard...</p>
         </div>
       </div>
-    )
+    );
   }
 
   // Don't render dashboard if user is not authenticated (will redirect)
   if (!user) {
-    return null
+    return null;
   }
 
   return (
@@ -52,8 +53,19 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* User Profile Card */}
+        {/* Welcome Message */}
+        <div className="mt-8">
+          <div className="glass-effect rounded-xl p-6 text-center">
+            <h2 className="text-2xl font-bold text-white mb-2">
+              Welcome to your Dashboard! 🎉
+            </h2>
+            <p className="text-gray-300">
+              You have successfully signed in with Firebase Authentication. This
+              is where your main application content would go.
+            </p>
+          </div>
+        </div>
+       {/* User Profile Card */}
           <div className="lg:col-span-1">
             <div className="auth-card rounded-xl p-6">
               <div className="text-center">
@@ -64,7 +76,9 @@ export default function DashboardPage() {
                     className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-teal-400"
                   />
                 )}
-                <h2 className="text-xl font-bold text-white mb-2">{user.displayName || "User"}</h2>
+                <h2 className="text-xl font-bold text-white mb-2">
+                  {user.displayName || "User"}
+                </h2>
                 <p className="text-gray-400 mb-4">{user.email}</p>
 
                 <div className="space-y-3">
@@ -73,7 +87,9 @@ export default function DashboardPage() {
                       <User className="w-4 h-4 mr-2" />
                       User ID
                     </span>
-                    <span className="text-gray-300 font-mono text-xs">{user.uid.substring(0, 8)}...</span>
+                    <span className="text-gray-300 font-mono text-xs">
+                      {user.uid}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
@@ -83,7 +99,9 @@ export default function DashboardPage() {
                     </span>
                     <span
                       className={`text-xs px-2 py-1 rounded-full ${
-                        user.emailVerified ? "bg-green-900 text-green-300" : "bg-yellow-900 text-yellow-300"
+                        user.emailVerified
+                          ? "bg-green-900 text-green-300"
+                          : "bg-yellow-900 text-yellow-300"
                       }`}
                     >
                       {user.emailVerified ? "Verified" : "Pending"}
@@ -97,7 +115,8 @@ export default function DashboardPage() {
                     </span>
                     <span className="text-gray-300 text-xs">
                       {user.metadata.lastSignInTime
-                        ? new Date(user.metadata.lastSignInTime).toLocaleDateString()
+                        ? new Date(user.metadata.lastSignInTime)
+                          .toLocaleDateString()
                         : "N/A"}
                     </span>
                   </div>
@@ -109,7 +128,9 @@ export default function DashboardPage() {
           {/* User Details JSON */}
           <div className="lg:col-span-2">
             <div className="auth-card rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-teal-300 mb-4">Complete User Details (JSON)</h3>
+              <h3 className="text-lg font-semibold text-teal-300 mb-4">
+                Complete User Details (JSON)
+              </h3>
               <div className="bg-gray-900/50 rounded-lg p-4 max-h-96 overflow-y-auto">
                 <pre className="text-sm text-gray-200 whitespace-pre-wrap break-all">
                   {JSON.stringify(user.toJSON(), null, 2)}
@@ -117,19 +138,8 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Welcome Message */}
-        <div className="mt-8">
-          <div className="glass-effect rounded-xl p-6 text-center">
-            <h2 className="text-2xl font-bold text-white mb-2">Welcome to your Dashboard! 🎉</h2>
-            <p className="text-gray-300">
-              You have successfully signed in with Firebase Authentication. This is where your main application content
-              would go.
-            </p>
-          </div>
-        </div>
+ 
       </main>
     </div>
-  )
+  );
 }

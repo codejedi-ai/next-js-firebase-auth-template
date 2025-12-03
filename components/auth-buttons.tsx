@@ -45,9 +45,41 @@ export function SignInWithGoogleButton() {
 }
 
 export function SignOutButton() {
+  const clearFirebasePersistence = () => {
+    try {
+      if (typeof window !== "undefined") {
+        // Remove Firebase auth-related localStorage/sessionStorage keys
+        Object.keys(localStorage)
+          .filter(
+            (k) =>
+              k.startsWith("firebase:authUser") ||
+              k.startsWith("firebase:rememberedAccounts") ||
+              k.startsWith("firebase:previous_websocket_failure")
+          )
+          .forEach((k) => localStorage.removeItem(k))
+
+        Object.keys(sessionStorage)
+          .filter((k) => k.startsWith("firebase:authUser"))
+          .forEach((k) => sessionStorage.removeItem(k))
+
+        // Best-effort: remove IndexedDB used by Firebase Auth to persist users
+        try {
+          if ("indexedDB" in window) {
+            indexedDB.deleteDatabase("firebaseLocalStorageDb")
+          }
+        } catch {
+          // ignore
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   const handleSignOut = async () => {
     try {
       await firebaseSignOut(auth)
+      clearFirebasePersistence()
     } catch (error) {
       console.error("Error signing out: ", error)
     }
@@ -64,3 +96,5 @@ export function SignOutButton() {
     </Button>
   )
 }
+
+

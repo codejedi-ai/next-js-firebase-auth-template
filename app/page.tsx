@@ -1,7 +1,7 @@
 "use client"
 
-import { useAuth } from "@/components/firebase-auth-provider"
-import { SignInWithGoogleButton } from "@/components/auth-components"
+import { useAuth } from "@/components/auth-provider"
+import { SignInWithGoogleButton } from "@/components/auth-buttons"
 import { User, Shield, Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"

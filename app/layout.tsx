@@ -1,7 +1,7 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata } from "next"
-import { AuthProvider } from "@/components/firebase-auth-provider" // Import AuthProvider
+import { AuthProvider } from "@/components/auth-provider" // Import AuthProvider
 
 export const metadata: Metadata = {
   title: "Next.js Firebase Auth Demo",
