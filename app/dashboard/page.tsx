@@ -4,7 +4,7 @@ import { useAuth } from "@/components/auth-provider";
 import { SignOutButton } from "@/components/auth-buttons";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Calendar, Mail, Shield, User } from "lucide-react";
+import { Calendar, Mail, User } from "lucide-react";
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
@@ -41,8 +41,12 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-teal-400 to-blue-500 rounded-full flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-teal-400 bg-gray-700">
+                <img
+                  src={user.photoURL || "/placeholder.svg"}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h1 className="text-xl font-bold text-white">Dashboard</h1>
             </div>
@@ -52,7 +56,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Welcome Message */}
         <div className="mt-8">
           <div className="glass-effect rounded-xl p-6 text-center">
@@ -66,7 +70,7 @@ export default function DashboardPage() {
           </div>
         </div>
        {/* User Profile Card */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 mt-8">
             <div className="auth-card rounded-xl p-6">
               <div className="text-center">
                 {user.photoURL && (
@@ -126,7 +130,7 @@ export default function DashboardPage() {
           </div>
 
           {/* User Details JSON */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 mt-8">
             <div className="auth-card rounded-xl p-6">
               <h3 className="text-lg font-semibold text-teal-300 mb-4">
                 Complete User Details (JSON)
